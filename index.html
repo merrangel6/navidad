@@ -161,17 +161,17 @@ body::after{
 
 <body>
 
-<!-- 🎶 MÚSICA -->
-<audio autoplay loop>
+
+<audio id="music" loop>
   <source src="https://cdn.pixabay.com/audio/2022/11/29/audio_0d5a07a6f5.mp3">
 </audio>
 
-<!-- TEXTO -->
+
 <div class="instructions">
   Elige tu nombre y<br>abre el regalo 🎁
 </div>
 
-<!-- SELECT -->
+
 <div class="selector" id="selector">
   <select id="nameSelect">
   <option value="">— Elige tu nombre —</option>
@@ -200,7 +200,6 @@ body::after{
   </select>
 </div>
 
-<!-- REGALO -->
 <div class="present" id="present">
   <div class="box">
     <div class="face front"></div>
@@ -218,7 +217,6 @@ body::after{
   </div>
 </div>
 
-<!-- MENSAJE -->
 <div class="modal" id="modal">
   <div class="card">
     <h2 id="title"></h2>
@@ -258,11 +256,15 @@ const selector=document.getElementById('selector');
 const present=document.getElementById('present');
 const modal=document.getElementById('modal');
 
+const music = document.getElementById('music');
+
 select.addEventListener('change',()=>{
   if(!select.value) return;
+  music.play().catch(()=>{});
   selector.style.display='none';
   present.style.display='block';
 });
+
 
 present.addEventListener('click',()=>{
   if(opened) return;
@@ -290,6 +292,7 @@ function resetExperience(){
 
 </body>
 </html>
+
 
 
 
