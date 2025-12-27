@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Feliz Navidad 🎄</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:'Mountains of Christmas',cursive;
+}
+
+/* ===== FONDO ===== */
+body{
+  background:#9dbfb0;
+}
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    url('https://secret-santa-gift.vercel.app/bg.bbe3be5a.jpg') center/cover no-repeat;
+  opacity:.35;
+  z-index:-1;
+}
+
+/* ===== TEXTO ===== */
+.instructions{
+  position:absolute;
+  top:20%;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:4.5vw;
+  color:white;
+  text-align:center;
+  line-height:1.2;
+}
+
+/* ===== SELECTOR ===== */
+.selector{
+  position:absolute;
+  top:45%;
+  left:50%;
+  transform:translateX(-50%);
+}
+.selector select{
+  font-size:18px;
+  padding:10px 14px;
+  border-radius:12px;
+  border:none;
+}
+
+/* ===== REGALO ===== */
+.present{
+  position:absolute;
+  top:65%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:180px;
+  height:180px;
+  perspective:600px;
+  cursor:pointer;
+  display:none;
+}
+
+.box{
+  width:100%;
+  height:100%;
+  position:relative;
+  transform-style:preserve-3d;
+  transform:rotateX(15deg) rotateY(-15deg);
+  transition:.6s;
+}
+
+.present:hover .box{
+  transform:rotateX(0) rotateY(0);
+}
+
+.face{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#d94848;
+  border:2px solid rgba(255,255,255,.25);
+}
+
+.front{transform:translateZ(90px)}
+.back{transform:rotateY(180deg) translateZ(90px)}
+.left{transform:rotateY(-90deg) translateZ(90px)}
+.right{transform:rotateY(90deg) translateZ(90px)}
+.bottom{transform:rotateX(-90deg) translateZ(90px)}
+
+.lid{
+  position:absolute;
+  width:100%;
+  height:100%;
+  transform-style:preserve-3d;
+  transform-origin:bottom center;
+  transition:transform .8s ease;
+}
+
+.present.open .lid{
+  transform:rotateX(-110deg) translateZ(20px);
+}
+
+.lid-face{
+  position:absolute;
+  width:100%;
+  height:25px;
+  background:#ef6b6b;
+}
+
+.lid-top{height:100%;transform:rotateX(90deg) translateZ(12px)}
+.lid-front{transform:translateZ(90px)}
+.lid-back{transform:rotateY(180deg) translateZ(90px)}
+.lid-left{transform:rotateY(-90deg) translateZ(90px)}
+.lid-right{transform:rotateY(90deg) translateZ(90px)}
+
+/* ===== MODAL ===== */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+}
+
+.card{
+  background:repeating-linear-gradient(
+    #fdfbf7,
+    #fdfbf7 28px,
+    #ece7df 29px
+  );
+  padding:26px;
+  width:90%;
+  max-width:360px;
+  border-radius:18px;
+  color:#333;
+  text-align:center;
+  font-family:Georgia,serif;
+}
+
+.card button{
+  margin-top:16px;
+  padding:10px 18px;
+  border:none;
+  border-radius:12px;
+  background:#c53030;
+  color:white;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎶 MÚSICA -->
+<audio autoplay loop>
+  <source src="https://cdn.pixabay.com/audio/2022/11/29/audio_0d5a07a6f5.mp3">
+</audio>
+
+<!-- TEXTO -->
+<div class="instructions">
+  Elige tu nombre y<br>abre el regalo 🎁
+</div>
+
+<!-- SELECT -->
+<div class="selector" id="selector">
+  <select id="nameSelect">
+  <option value="">— Elige tu nombre —</option>
+  <option value="Lupe">Lupe</option>
+  <option value="Rosa">Rosa</option>
+  <option value="Yadira">Yadira</option>
+  <option value="Andrea">Andrea</option>
+  <option value="Sari">Sari</option>
+  <option value="Caro">Caro</option>
+  <option value="Monica">Monica</option>
+  <option value="Keko">Keko</option>
+  <option value="Paulita">Paulita</option>
+  <option value="Julieta">Julieta</option>
+  <option value="Emma">Emma</option>
+  <option value="Andre">Andre</option>
+  <option value="Delia">Delia</option>
+  <option value="Valentina">Valentina</option>
+  <option value="Blanquita">Blanquita</option>
+  <option value="Cristofer">Cristofer</option>
+  <option value="Oscar">Oscar</option>
+  <option value="Robert">Robert</option>
+  <option value="Roger">Roger</option>
+  <option value="JuanCarlos">Juan Carlos</option>
+</select>
+
+  </select>
+</div>
+
+<!-- REGALO -->
+<div class="present" id="present">
+  <div class="box">
+    <div class="face front"></div>
+    <div class="face back"></div>
+    <div class="face left"></div>
+    <div class="face right"></div>
+    <div class="face bottom"></div>
+    <div class="lid">
+      <div class="lid-face lid-top"></div>
+      <div class="lid-face lid-front"></div>
+      <div class="lid-face lid-back"></div>
+      <div class="lid-face lid-left"></div>
+      <div class="lid-face lid-right"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MENSAJE -->
+<div class="modal" id="modal">
+  <div class="card">
+    <h2 id="title"></h2>
+    <p id="text"></p>
+    <button onclick="resetExperience()">Abrir otro regalo 🎄</button>
+  </div>
+</div>
+
+<script>
+let opened=false;
+
+const messages={
+  Lupe:"Tìa, muchas gracias por todo el cariño y apoyo que me brinda, la quiero mucho, que siempre sea feliz y tenga salud",
+  Rosa:"Gracias por todo tia, usted es un gran ejemplo para mi, la quiero mucho 💙",
+  Yadira:"Te quiero mucho yadi, creci viendote como un ejemplo a seguir, te deseo lo mejor siempre ✨",
+  Andrea:"Te quiero mucho andrea, creci viendote como un ejemplo a seguir, te deseo lo mejor siempre🎄",
+  Sari:"Te quiero mucho sari, eres de las personas ms bonitas que conozco ✨",
+  Caro:"Te quiero mucho caro, me contagias mucha alegria, y siempre te recuerdo con cariño 💕",
+  Monica:"Moni, eres asombrosa! te quiero mucho y gracias por estar para mi 💙",
+  Keko:"Primo, te quiero mucho, eres una persona muy simpatica, me gusta mucho platicar contigo ✨",
+  Paulita:"Paulita, te quiero un monton, de aqui a la luna, que diosito te cuide siempre y que siempre seas esa niña tan feliz e inteligente que eres🎄",
+  Julieta:"Muñequita bonita, no puedes leer esto pero te quiero con todo mi corazon, eres una niña hermosa ✨",
+  Emma:"Emmita, una de las mejores cosas de este año fue cuidarte y pasar tiempo contigo, te adoro siempre siempre 💕",
+  Andre:"Bebe precioso, eres felicidad pura, te quiero millones, tu sonrisa me hace feliz 💙",
+  Delia:"Mami te amo muchoooo, dios quiera que estes mucho tiempo conmigo✨",
+  Valentina:"Mi vale, feliz navidad, espero los proximos años hacer que estas festividades sean bonitas para ti, te amo con todo mi cprazon💕",
+  Blanquita:"Feliz navidad, que siempre sea feliz y tenga mucha salud, muchas gracias por siempre procurar a mi mamà y mis tias 💙",
+  Cristofer:"Feliz navidad, mis mejores deseos siempre 🎄",
+  Oscar:"Feliz navidad, mis mejores deseos siempre 🎄",
+  Robert:"Feliz navidad, mis mejores deseos siempre  ✨",
+  Roger:"Feliz navidad, mis mejores deseos siempre  💕",
+  JuanCarlos:"Feliz navidad, mis mejores deseos siempre ✨"
+};
+
+const select=document.getElementById('nameSelect');
+const selector=document.getElementById('selector');
+const present=document.getElementById('present');
+const modal=document.getElementById('modal');
+
+select.addEventListener('change',()=>{
+  if(!select.value) return;
+  selector.style.display='none';
+  present.style.display='block';
+});
+
+present.addEventListener('click',()=>{
+  if(opened) return;
+  present.classList.add('open');
+  setTimeout(()=>{
+    const name=select.value;
+    document.getElementById('title').innerText =
+      name.charAt(0).toUpperCase()+name.slice(1);
+    document.getElementById('text').innerText =
+      messages[name] || "Que esta Navidad te llene de paz y amor ✨";
+    modal.style.display='flex';
+    opened=true;
+  },900);
+});
+
+function resetExperience(){
+  modal.style.display='none';
+  present.classList.remove('open');
+  present.style.display='none';
+  selector.style.display='block';
+  select.value='';
+  opened=false;
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
